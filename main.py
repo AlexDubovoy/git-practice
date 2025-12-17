@@ -6,7 +6,7 @@ while True:
 
         if operations == 'q':
             print("Выход из программы.")
-        break
+            break
 
         if operations == '+':
             print(f"Результат сложения: {num1 + num2}")
@@ -15,18 +15,19 @@ while True:
         elif operations == '*':
             print(f"Результат умножения: {num1 * num2}")
         elif operations == '/':
-            if num2 == 0:
-                print("Ошибка: Деление на ноль запрещено.")
-            else:
-                print(f"Результат деления: {num1 / num2}")
+            print(f"Результат деления: {num1 / num2}")
         else:
             print("Ошибка: Неверная операция. Используйте +, -, *, /.")
+
     except ValueError:
         print("Ошибка: Это не число! Пожалуйста, введите число.")
+    except ZeroDivisionError:
+        print("Ошибка: Деление на ноль запрещено.")
     except Exception as e:
         print(f"Произошла ошибка: {e}")
     finally:
-        print("--- Операция завершена ---\n") #выход
+        print("--- Операция завершена ---\n")
+
 
 
 
