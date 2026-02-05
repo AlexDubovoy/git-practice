@@ -24,6 +24,27 @@ def test_max_number():
 
     print("Все тесты пройдены успешно!")
 
-# Запуск тестов при прямом запуске файла
-if __name__ == "__main__":
+def main():
+    print("Генератор чётных чисел:")
+
+    # Показываем, как работает генератор even_numbers
+    print("\nПримеры работы генератора even_numbers:")
+
+    # Вариант 1: через цикл for
+    print("Чётные числа до 10:")
+    for num in even_numbers(10):
+        print(num, end='  ')
+    print()
+
+    # Вариант 2: в виде списка
+    print("Чётные числа до 7 как список:", list(even_numbers(7)))
+
+    # Вариант 3: несколько значений вручную
+    gen = even_numbers(20)
+    print("Первые 4 чётных числа:", next(gen), next(gen), next(gen), next(gen))
+
+    # Тестируем max_number
     test_max_number()
+
+if __name__ == "__main__":
+    main()
