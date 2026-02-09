@@ -1,14 +1,15 @@
 while True:
-    try:
-        age = int(input("Введите ваш возраст: ").strip())
+    entering_numbers = input("Введите число от 1 до 5: ").strip()
+
+    if not entering_numbers.isdigit():
+        print("Пожалуйста, введите число (цифру)")
+        continue
+
+    n = int(entering_numbers)
+
+    if 1 <= n <= 5:
+        words = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five"}
+        print("Соответствующее слово:", words[n])
         break
-    except ValueError:
-        print("Пожалуйста, введите число (возраст).")
-
-citizenship = input("Вы гражданин страны? (да/нет): ").strip().lower() == "да"
-criminal_record = input("Есть ли судимость? (да/нет): ").strip().lower() == "да"
-
-if age >= 18 and citizenship and not criminal_record:
-    print("Вы можете голосовать!")
-else:
-    print("Голосовать нельзя.")
+    else:
+        print("Число должно быть от 1 до 5 включительно")
