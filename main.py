@@ -1,13 +1,13 @@
 while True:
-    entering_numbers = input("Введите целое положительное число: ").strip()
+    try:
+        n = int(input("Введите целое положительное число: ").strip())
+        if n >= 0:
+            break
+        print("Число должно быть неотрицательным")
+    except ValueError:
+        print("Нужно ввести целое число")
 
-    if entering_numbers.isdigit():
-        n = int(entering_numbers)
-        break
-    else:
-        print("Пожалуйста, введите целое положительное число")
-
-print("Начало отчёта:")
+print("Начало отсчёта:")
 while n >= 0:
     print(n)
     n -= 1
