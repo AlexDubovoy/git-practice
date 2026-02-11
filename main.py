@@ -1,15 +1,15 @@
 while True:
-    entering_numbers = input("Введите число от 1 до 5: ").strip()
+    entering_numbers = input("Введите целое положительное число: ").strip()
 
-    if not entering_numbers.isdigit():
-        print("Пожалуйста, введите число (цифру)")
-        continue
-
-    n = int(entering_numbers)
-
-    if 1 <= n <= 5:
-        words = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five"}
-        print("Соответствующее слово:", words[n])
+    if entering_numbers.isdigit():
+        n = int(entering_numbers)
         break
     else:
-        print("Число должно быть от 1 до 5 включительно")
+        print("Пожалуйста, введите целое положительное число")
+
+print("Начало отчёта:")
+while n >= 0:
+    print(n)
+    n -= 1
+
+print("Отсчёт завершён.")
