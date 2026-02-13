@@ -1,15 +1,10 @@
+secret_password = "pass123"
+
 while True:
-    try:
-        n = int(input("Введите целое положительное число: ").strip())
-        if n >= 0:
-            break
-        print("Число должно быть неотрицательным")
-    except ValueError:
-        print("Нужно ввести целое число")
+    user_input = input("Введите пароль: ")
 
-print("Начало отсчёта:")
-while n >= 0:
-    print(n)
-    n -= 1
-
-print("Отсчёт завершён.")
+    if user_input == secret_password:
+        print("Пароль верный! Добро пожаловать!")
+        break
+    else:
+        print("Неверный пароль, попробуйте ещё раз...")
