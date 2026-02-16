@@ -1,36 +1,34 @@
-text = input("Текст: ").lower()
+def clean_and_split(text: str) -> list[str]:
+    text = text.lower()
+    for p in ".,!?;:-—()\"'«»…":
+        text = text.replace(p, " ")
+    return text.split()
 
-# убираем знаки препинания и пробелы
-for p in ".,!?;:-—()\"'«»…":
-    text = text.replace(p, " ")
 
-words = text.split()
+def longest_word(words: list[str]) -> str:
+    return max(words, key=len) if words else ""
+
+
+def vowel_count(text: str) -> int:
+    return sum(1 for c in text if c in "аеёиоуыэюя")
+
+
+def word_freq(words: list[str]) -> dict:
+    freq = {}
+    for w in words:
+        freq[w] = freq.get(w, 0) + 1
+    return freq
+
+
+text = input("Текст: ").strip()
+words = clean_and_split(text)
 
 if not words:
     print("Нет слов")
 else:
-    # 1. количество слов
     print("Слов:", len(words))
-
-    # 2. самое длинное слово
-    longest = words[0]
-    for w in words:
-        if len(w) > len(longest):
-            longest = w
-    print("Самое длинное:", longest)
-
-    # 3. гласные
-    count = 0
-    for c in text:
-        if c in "аеёиоуыэюя":
-            count += 1
-    print("Гласных:", count)
-
-    # 4. частота слов
-    count = {}
-    for w in words:
-        count[w] = count.get(w, 0) + 1
-
+    print("Самое длинное:", longest_word(words))
+    print("Гласных:", vowel_count(" ".join(words)))
     print("\nЧастота:")
-    for w in count:
-        print(w, "→", count[w])
+    for w, cnt in sorted(word_freq(words).items()):
+        print(f"{w:20} {cnt}")
