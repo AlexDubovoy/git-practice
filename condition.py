@@ -6,16 +6,17 @@ print("Квадраты нечётных 1 до 10:", [x**2 for x in range(1, 11
 
 # 3. Счётчик чисел до отрицательного
 count = 0
-
 print("Вводите числа (отрицательное — стоп):")
 
-while True:
+number = 0
+
+while number >= 0:
     try:
-        n = int(input("→ ").strip())
-        if n < 0:
-            break
-        count += 1
+        enter = input("→ ").strip()
+        number = int(enter)
+        if number >= 0:
+            count += 1
     except ValueError:
-        print("Нужно ввести целое число, а не буквы или символы")
+        print("Нужно ввести целое число")
 
 print(f"Введено неотрицательных чисел: {count}")
