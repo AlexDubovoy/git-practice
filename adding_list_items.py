@@ -1,9 +1,11 @@
-list_num1 = [1, 7, 9, 22, 104]
+list_num1 = [122, 227, 339, 722, 114]
 list_num2 = [121, 212, 483, 777]
 
-result = []
+max_len = max(len(list_num1), len(list_num2))
 
-for i in range(min(len(list_num1), len(list_num2))):
-    result.append(list_num1[i] + list_num2[i])
+list1 = list_num1 + [0] * (max_len - len(list_num1))
+list2 = list_num2 + [0] * (max_len - len(list_num2))
 
-print(result)  # [122, 219, 492, 799]
+result = [list1[i] + list2[i] for i in range(max_len)]
+
+print(result) #[243, 439, 822, 1499, 114]
