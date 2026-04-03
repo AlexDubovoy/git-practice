@@ -42,27 +42,31 @@ def remove_book(library, book_name):
 
 
 def issue_book(library, book_name):
-    """Отмечает книгу как выданную (availability = False"""
-    if book_name in library:
-        if library[book_name]['availability'] is False:
-            print(f"Книга '{book_name}' уже выдана.")
-        else:
-            library[book_name]['availability'] is False
-            print(f"Книга '{book_name}' успешно выдана.")
-    else:
+    """Отмечает книгу как выданную (availability = False)"""
+    if book_name not in library:
         print(f"Книга '{book_name}' не найдена в библиотеке.")
+        return
+
+    if library[book_name]['availability'] is False:
+        print(f"Книга '{book_name}' уже выдана.")
+        return
+
+    library[book_name]['availability'] = False
+    print(f"Книга '{book_name}' успешно выдана.")
 
 
 def return_book(library, book_name):
-    """ Отмечает книгу как возвращенную (availability = True) """
-    if book_name in library:
-        if library[book_name]['availability'] is True:
-            print(f"Книга '{book_name}' уже находится в библиотеке.")
-        else:
-            library[book_name]['availability'] = True
-            print(f"Книга '{book_name}' успешно возвращена в библеотеку.")
-    else:
+    """Отмечает книгу как возвращённую (availability = True)"""
+    if book_name not in library:
         print(f"Книга '{book_name}' не найдена в библиотеке.")
+        return
+
+    if library[book_name]['availability'] is True:
+        print(f"Книга '{book_name}' уже находится в библиотеке.")
+        return
+
+    library[book_name]['availability'] = True
+    print(f"Книга '{book_name}' успешно возвращена в библиотеку.")
 
 
 library = {}
