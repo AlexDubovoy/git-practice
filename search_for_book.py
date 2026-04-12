@@ -9,26 +9,22 @@ def book_list_view(library):
         print(f"{i}. {book_name}")
 
 
-def add_book(library):
-    """Добавляет новую книгу в библиотеку."""
-    print("\n- - - Добавление новой книги - - -")
-    book_name = input("Введите название книги: ").strip()
-
+def add_book(library, book_name=None, author=None, year=None):
+    """Добавляет или обновляет книгу в библиотеке."""
+    if book_name is None:
+        book_name = input("Введите название книги: ").strip()
     if not book_name:
-        print("Ошибка: Название книги не может быть пустым.")
+        print("Название книги не может быть пустым.")
         return
+    author = input("Введите автора: ").strip()
+    year = int(input("Введите год издания: ").strip())
 
-    is_update = False
     if book_name in library:
-        print(f"Книга '{book_name}' уже существует в библиотеке.")
-        choice = input("Хотите обновить информацию о книге? (да/нет): ").strip().lower()
+        print(f"Книга '{book_name}' уже существует.")
+        choice = input("Обновить информацию? (да\нет): ").strip().lower()
         if choice != 'да':
             print("Операция отменена.")
             return
-        is_update = True
-
-    author = input("Введите автора книги: ").strip()
-    year =int(input("Введите год издания: ").strip())
 
     library[book_name] = {
         'author': author,
@@ -36,13 +32,15 @@ def add_book(library):
         'availability': None
     }
 
-    action = "обновлена" if is_update else "добавлена"
+    action = "обновлена" if book_name in library else "добавлена"
     print(f"Книга '{book_name}' успешно {action} в библиотеке.")
 
 
-def remove_book(library):
+def remove_book(library, book_name=None):
     """Удаляет книгу из библиотеки."""
-    book_name = input("\nВведите название книги для удаления: ").strip()
+    if book_name is None:
+        book_name = input("\nВведите название книги для удаления: ").strip()
+
     if book_name in library:
         del library[book_name]
         print(f"Книга ' {book_name}' успешно удалена из библиотеки.")
@@ -50,9 +48,11 @@ def remove_book(library):
         print(f"Книга '{book_name}' не найдена в библиотеке.")
 
 
-def issue_book(library):
+def issue_book(library, book_name=None):
     """Отмечает книгу как выданную (availability = False)"""
-    book_name = input("\nВведите название книги для выдачи: ").strip()
+    if book_name is None:
+        book_name = input("\nВведите название книги для выдачи: ").strip()
+
     if book_name not in library:
         print(f"Книга '{book_name}' не найдена в библиотеке.")
         return
@@ -65,9 +65,11 @@ def issue_book(library):
     print(f"Книга '{book_name}' успешно выдана.")
 
 
-def return_book(library):
+def return_book(library, book_name=None):
     """Отмечает книгу как возвращённую (availability = True)"""
-    book_name = input("\nВведите название книги для возврата: ").strip()
+    if book_name is None:
+        book_name = input("\nВведите название книги для возврата: ").strip()
+
     if book_name not in library:
         print(f"Книга '{book_name}' не найдена в библиотеке.")
         return
@@ -83,38 +85,31 @@ def return_book(library):
 def find_book(library):
     """Поиск книги по названию."""
     search_query = input("\nВведите название книги (или ее часть): ").strip()
-
     if not search_query:
         print("Поиск при запросе не может быть пустым")
         return
-
-    found_books = []
+    found = False
 
     for book_name in library.keys():
         if search_query.lower() in book_name.lower():
-            found_books.append(book_name)
+            book = library[book_name]
 
-    if not found_books:
-        print(f"Книги, содержащие '{search_query}' в название не найдены.")
-        return
+            if book['availability'] is None:
+                status = "В библиотеке (статус не определен)"
+            elif book['availability'] is False:
+                status = "Выдана"
+            else:
+                status = "В наличии"
 
-    print(f"\nНайдено книг: {len(found_books)}\n")
+            print(f"Название: '{book_name}':")
+            print(f"Автор: {book['author']}")
+            print(f"Год издания: {book['year_of_publication']}")
+            print(f"Статус: {status}")
+            print("-" * 40)
+            found = True
 
-    for book_name in found_books:
-        book = library[book_name]
-
-        if book['availability'] is None:
-            status = "В библиотеке (статус не определен)"
-        elif book['availability'] is False:
-            status = "Выдана"
-        else:
-            status = "В наличии"
-
-        print(f"Название: '{book_name}':")
-        print(f"Автор: {book['author']}")
-        print(f"Год издания: {book['year_of_publication']}")
-        print(f"Статус: {status}")
-        print("-" * 40)
+    if not found:
+        print(f"Книги, содержащие '{search_query}' не найдены.")
 
 def show_menu():
     """Показывает главное меню"""
@@ -133,24 +128,21 @@ def show_menu():
 
 library = {}
 
+menu_actions = {
+    '1': lambda: add_book(library),
+    '2': lambda: book_list_view(library),
+    '3': lambda: find_book(library),
+    '4': lambda: issue_book(library),
+    '5': lambda: return_book(library),
+    '6': lambda: remove_book(library),
+    '0': lambda: print("\nПрограмма завершена. До свидания!") or exit(0)
+}
+
 while True:
     show_menu()
     choice = input("Выберите действие (0-6): ").strip()
 
-    if choice == '1':
-        add_book(library)
-    elif choice == '2':
-        book_list_view(library)
-    elif choice == '3':
-        find_book(library)
-    elif choice == '4':
-        issue_book(library)
-    elif choice == '5':
-        return_book(library)
-    elif choice == '6':
-        remove_book(library)
-    elif choice == '0':
-        print("\nПрограмма завершена. До встречи!")
-        break
+    if choice in menu_actions:
+        menu_actions[choice]()
     else:
         print("Неверный выбор. Пожалуйста, введите число от 0 до 6.")
