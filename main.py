@@ -43,47 +43,32 @@ class ToDoList:
             print(f"{i}. [{status}] {task_name}")
 
 
+todo = ToDoList()
+
+menu = {
+    '1': ("Добавить задачу", lambda: add_task_interactive(todo)),
+    '2': ("Отметить задачу как выполненную", lambda: complete_task_interactive(todo)),
+    '3': ("Удалить задачу", lambda: remove_task_interactive(todo)),
+    '4': ("Показать все задачи", lambda: todo.list_tasks()),
+    '0': ("Выход", lambda: print("\nПрограмма завершена. Всего Хорошего!!!") or exit(0))
+}
+
+
 def show_menu():
     print("\n" + "="*50)
     print("              TO-DO LIST")
     print("="*50)
-    print("1. Добавить задачу")
-    print("2. Отметить задачу как выполненную")
-    print("3. Удалить задачу")
-    print("4. Показать все задачи")
-    print("0. Выход")
+    for key, (text, _) in menu.items():
+        print(f"{key}. {text}")
     print("="*50)
 
-
-
-todo = ToDoList()
 
 while True:
     show_menu()
     choice = input("Выберите действие (0-4): ").strip()
-    if choice == '1':
-        task = input("Введите название задачи: ").strip()
-        if task:
-            todo.add_task(task)
-        else:
-            print("Название задачи не может быть пустым.")
-    elif choice == '2':
-        task = input("Введите название задачи для отметки: ").strip()
-        if task:
-            todo.complete_task(task)
-        else:
-            print("Название задачи не еможет быть пустым.")
-    elif choice == '3':
-        task = input("Введите название задачи для удаления: ").strip()
-        if task:
-            todo.remove_task(task)
-        else:
-            print("Название задачи не может быть пустым.")
-    elif choice == '4':
-        todo.list_tasks()
-    elif choice == '0':
-        print("\nПрограмма завершена. Всего Хорошего!!!")
-        break
 
+    if choice in menu:
+        action = menu[choice][1]
+        action()
     else:
         print("Неверный выбор. Пожалуйста, введите число от 0 до 4.")
